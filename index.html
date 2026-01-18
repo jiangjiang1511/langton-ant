@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Langton's Ant | 秩序的涌现</title>
+    <style>
+        /* 品牌视觉 DNA */
+        :root {
+            --primary-green: #CFF600; /* 朗敦道主高亮 */
+            --forest-green: #01B334;  /* 次要装饰 */
+            --black: #000000;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            border-radius: 0 !important; /* 强制直角 */
+        }
+
+        body {
+            background-color: var(--white);
+            color: var(--black);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 极简网格背景 */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(#eee 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 100px 20px;
+        }
+
+        /* 动画：秩序涌现 */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2 {
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            margin-bottom: 2rem;
+            border-left: 8px solid var(--primary-green);
+            padding-left: 15px;
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1;
+        }
+
+        /* 模拟蚂蚁步进的装饰线 */
+        .ant-path {
+            width: 100px;
+            height: 4px;
+            background: var(--black);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .ant-path::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-green);
+            top: -8px;
+        }
+
+        .card {
+            border: 2px solid var(--black);
+            padding: 30px;
+            margin-bottom: 40px;
+            background: var(--white);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 10px 10px 0px var(--primary-green);
+        }
+
+        .highlight {
+            background: var(--primary-green);
+            padding: 0 5px;
+        }
+
+        /* 留言板简易样式 */
+        #comment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        textarea {
+            border: 2px solid var(--black);
+            padding: 15px;
+            height: 100px;
+            resize: none;
+        }
+
+        button {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            padding: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: var(--primary-green);
+            color: var(--black);
+        }
+
+        .comment-item {
+            border-bottom: 1px solid #eee;
+            padding: 20px 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 50px;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grid-bg"></div>
+
+    <section class="hero">
+        <div class="ant-path"></div>
+        <h1>LANGTON'S<br><span class="highlight">ANT</span></h1>
+        <p style="font-size: 1.5rem; margin-top: 20px;">简单的规则，复杂的秩序。</p>
+        <p style="margin-top: 10px; color: #666;">—— 朗敦道底层逻辑实验场</p>
+    </section>
+
+    <section class="reveal">
+        <h2>01. 实验简介</h2>
+        <div class="card">
+            <p>兰顿蚂蚁是一个细胞自动机。它的运行逻辑极其简单：在白格右转并将格变黑，在黑格左转并将格变白。然而，这个极简系统在运行一万步后，会从完全混沌的状态中，突然自发地构建出一道笔直的“高速公路”。</p>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <h2>02. 实验启示</h2>
+        <div class="card">
+            <h3 style="margin-bottom: 10px;">掌握底层变量</h3>
+            <p>教育的本质不是应付复杂的考试，而是建立简单的底层习惯。当核心规则（如注意力、学习偏好）被校准，成长就会进入自动涌现的阶段。</p>
+        </div>
+        <div class="card">
+            <h3 style="margin-bottom: 10px;">跨越混沌期</h3>
+            <p>在构建“高速公路”前，蚂蚁经历了长时间的杂乱无章。不要在混沌时焦虑，那是秩序在深层自我组织。坚持正确的动作，等待那一刻的“涌现”。</p>
+        </div>
+    </section>
+
+    <section class="reveal">
+        <h2>03. 留言分享</h2>
+        <div class="card">
+            <form id="comment-form">
+                <textarea placeholder="分享你对‘秩序涌现’的感悟..."></textarea>
+                <button type="button" onclick="addComment()">提交感悟并分享</button>
+            </form>
+            <div id="comment-list" style="margin-top: 30px;">
+                <div class="comment-item">书友 A：看见了蚂蚁的路径，我才理解了坚持底层逻辑的意义。</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        LANGTON TAO © 2026 | BEYOND EDUCATION
+    </footer>
+
+    <script>
+        // 简单的滚动显现脚本
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // 简易留言逻辑
+        function addComment() {
+            const txt = document.querySelector('textarea').value;
+            if(!txt) return;
+            const item = document.createElement('div');
+            item.className = 'comment-item';
+            item.innerText = '匿名书友：' + txt;
+            document.getElementById('comment-list').prepend(item);
+            document.querySelector('textarea').value = '';
+            alert('感悟已记录，正在生成你的秩序名片...');
+        }
+    </script>
+</body>
+</html>
